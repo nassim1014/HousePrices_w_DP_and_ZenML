@@ -112,6 +112,16 @@ class CategoricalUnivariateAnalysisStrategy(UnivariateAnalysisStrategy):
         
         return value_counts
     
+class UnivariateAnalyzer:
+    def __init__(self, strategy : UnivariateAnalysisStrategy):
+        self._strategy = strategy
+    def set_strategy(self, strategy : UnivariateAnalysisStrategy):
+        self._strategy = strategy
+
+    def execute_analysis(self, df : pd.DataFrame, feature: str):
+        self._strategy.analyze(df, feature)
+
+
 
 if __name__ == "__main__":
     # Sample DataFrame
