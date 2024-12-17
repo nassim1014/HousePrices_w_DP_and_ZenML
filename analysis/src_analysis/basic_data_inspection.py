@@ -12,21 +12,21 @@ class DataInspectionStrategy(ABC):
 class DataTypesInspectionStrategy(DataInspectionStrategy):
     def inspect(self, df: pd.DataFrame):
         print("### Data Types and Non-Null Counts ###")
-        return df.info()  # Outputs data types, non-null counts
+        print(df.info())  # Outputs data types, non-null counts
 
 
 # 3. Concrete Strategy: Summary Statistics for Numerical Columns
 class SummaryStatisticsInspectionStrategy(DataInspectionStrategy):
     def inspect(self, df: pd.DataFrame):
         print("### Summary Statistics (Numerical Columns) ###")
-        return df.describe()  # Outputs summary statistics
+        print(df.describe())  # Outputs summary statistics
 
 
 # 4. Concrete Strategy: Summary for Categorical Columns
 class CategoricalSummaryInspectionStrategy(DataInspectionStrategy):
     def inspect(self, df: pd.DataFrame):
         print("### Summary Statistics (Categorical Columns) ###")
-        return df.describe(include='object')  # Outputs summary for categorical columns
+        print(df.describe(include='object'))  # Outputs summary for categorical columns
 
 
 # 5. Context Class: DataInspector
