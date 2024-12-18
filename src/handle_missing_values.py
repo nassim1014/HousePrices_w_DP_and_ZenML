@@ -26,7 +26,7 @@ class DropMissingValues(MissingValuesHandlingStrategy):
         self.axis = axis
         self.thresh = thresh
 
-    def handle(self, df):
+    def handle(self, df : pd.DataFrame) -> pd.DataFrame:
         logging.info(f"Dropping missing values with axis={self.axis} and threshold={self.thresh}")
         df_cleaned = df.dropna(axis=self.axis, thresh=self.thresh)
         logging.info("Missing values are dropped")
@@ -44,7 +44,7 @@ class FillMissingValues(MissingValuesHandlingStrategy):
         self.method = method
         self.fill_value = fill_value
 
-    def handle(self, df):
+    def handle(self, df:pd.DataFrame) -> pd.DataFrame:
         logging.info(f"Filling missing values using method: {self.method}")
         
         # Create a copy of the dataframe
@@ -72,3 +72,13 @@ class FillMissingValues(MissingValuesHandlingStrategy):
         
         logging.info("Missing values filled")
         return df_filled
+
+class MissingValueHandler:
+    def __init__(self, missing_value_strategy : MissingValuesHandlingStrategy):
+        self._missing_value_strategy = missing_value_strategy
+
+    def set_missing_value_strategy(self, missing_value_strategy : MissingValuesHandlingStrategy):
+        self._missing_value_strategy = missing_value_strategy
+    
+    def handle_missing_value(self , df: pd.DataFrame) -> pd.DataFrame:
+        return self._missing_value_strategy.handle(df)
