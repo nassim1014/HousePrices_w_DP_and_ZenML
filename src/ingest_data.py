@@ -75,11 +75,13 @@ class JSONDataIngestor:
             return f"An unexpected error occurred: {str(e)}"
         
 class DataIngestorFactory:
-    def __init__(self, Ingestor_type : DataIngestor):
-        self._ingestor_type = Ingestor_type
-
-    def set_ingestor_type(self, ingestor_type):
-        self._ingestor_type = ingestor_type
-    
-    def ingest_data(self,filepath):
-        self._ingestor_type.ingest(filepath)
+    @staticmethod
+    def get_data_ingestor(file_extention:str):
+        if file_extention == "json":
+            return JSONDataIngestor()
+        elif file_extention == ".csv":
+            return CSVDataIngestor()
+        elif file_extention == ".zip" :
+            return ZipDataIngestor()
+        else :
+            raise ValueError(f"no ingestor for file extension : {file_extention}")
