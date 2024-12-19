@@ -24,3 +24,18 @@ build/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+.zen/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+build/
+dist/
+venv/
+env/
+.ipynb_checkpoints/
+mlruns/
+logs/
+*.log
