@@ -1,6 +1,6 @@
    # Handles train-test splitting
    # Returns X_train, X_test, y_train, y_test 
-from data_splitter import DataSplitterContext , SimpleTrainTestSplit
+from src.data_splitter import DataSplitterContext , SimpleTrainTestSplit
 import pandas as pd
 from zenml import step
 from typing import Tuple
