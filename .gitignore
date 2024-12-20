@@ -20,7 +20,7 @@ build/
 .idea/
 *.swp
 *.swo
-
+artifacts/
 # OS generated files
 .DS_Store
 Thumbs.db
