@@ -39,3 +39,4 @@ env/
 mlruns/
 logs/
 *.log
+testing_the_pipe.ipynb
