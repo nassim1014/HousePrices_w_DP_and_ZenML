@@ -10,7 +10,6 @@ def main():
     """
     # Run the pipeline
     run = ml_pipeline()
-    run.run()
     # You can uncomment and customize the following lines if you want to retrieve and inspect the trained model:
     # trained_model = run["model_building_step"]  # Replace with actual step name if different
     # print(f"Trained Model Type: {type(trained_model)}")

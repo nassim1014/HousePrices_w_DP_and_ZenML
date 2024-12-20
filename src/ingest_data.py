@@ -39,7 +39,7 @@ class ZipDataIngestor(DataIngestor):
                 return df
 
 class CSVDataIngestor(DataIngestor):
-    def ingest(file_path) -> pd.DataFrame:
+    def ingest(self, file_path) -> pd.DataFrame:
         # Check if the file is a CSV
         if not file_path.endswith('.csv'):
             return "This is not a .csv file"
@@ -56,7 +56,7 @@ class CSVDataIngestor(DataIngestor):
             return f"An error occurred while reading the CSV file: {str(e)}"
 
 class JSONDataIngestor:
-    def ingest(json_file_path) -> pd.DataFrame:
+    def ingest(self, json_file_path) -> pd.DataFrame:
         # Check if the file is a JSON
         if not json_file_path.endswith('.json'):
             return "This is not a .json file"
