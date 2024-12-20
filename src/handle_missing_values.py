@@ -16,13 +16,6 @@ class MissingValuesHandlingStrategy(ABC):
 
 class DropMissingValues(MissingValuesHandlingStrategy):
     def __init__(self, axis=0, thresh=None):
-        """
-        Initialize with parameters for dropping.
-        
-        Args:
-            axis (int): 0 to drop rows, 1 to drop columns
-            thresh (int): Minimum number of non-null values required to keep
-        """
         self.axis = axis
         self.thresh = thresh
 

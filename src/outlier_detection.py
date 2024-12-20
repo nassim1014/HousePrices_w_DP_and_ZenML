@@ -1,5 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
+from scipy.stats import zscore
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,24 +22,38 @@ class ZScoreOutlierDetection(OutlierDetectionStrategy):
     def __init__(self, threshold=3):
         self.threshold = threshold
 
-    def detect_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
+    def detect_outliers(self, df: pd.DataFrame , numeric_cols: pd.core.indexes.base.Index) -> pd.DataFrame:
         logging.info("Detecting outliers using the Z-score method.")
-        z_scores = np.abs((df - df.mean()) / df.std())
-        outliers = z_scores > self.threshold
+        z_scores = zscore(df[numeric_cols])
+        outliers = (z_scores > self.threshold) | (z_scores < -self.threshold)
+        #z_scores = np.abs((df - df.mean()) / df.std())
+        #outliers = z_scores > self.threshold
         logging.info(f"Outliers detected with Z-score threshold: {self.threshold}.")
         return outliers
 
 
 # Concrete Strategy for IQR Based Outlier Detection
+import pandas as pd
+import logging
+
 class IQROutlierDetection(OutlierDetectionStrategy):
-    def detect_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
+    def detect_outliers(self, df: pd.DataFrame, numeric_cols: pd.Index) -> pd.DataFrame:
+        # Ensure numeric_cols is of correct type (Index)
+        if not isinstance(numeric_cols, pd.Index):
+            raise TypeError("numeric_cols must be of type pd.Index")
+
         logging.info("Detecting outliers using the IQR method.")
-        Q1 = df.quantile(0.25)
-        Q3 = df.quantile(0.75)
+        # Filter the DataFrame to only include numeric columns
+        # Calculate Q1 (25th percentile) and Q3 (75th percentile)
+        Q1 = df[numeric_cols].quantile(0.25)
+        Q3 = df[numeric_cols].quantile(0.75)
+        # Calculate IQR (Interquartile Range)
         IQR = Q3 - Q1
-        outliers = (df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))
+        # Detect outliers: values below Q1 - 1.5 * IQR or above Q3 + 1.5 * IQR
+        outliers = (df[numeric_cols] < (Q1 - 1.5 * IQR)) | (df[numeric_cols] > (Q3 + 1.5 * IQR))
         logging.info("Outliers detected using the IQR method.")
         return outliers
+
 
 
 # Context Class for Outlier Detection and Handling
@@ -50,15 +65,16 @@ class OutlierDetector:
         logging.info("Switching outlier detection strategy.")
         self._strategy = strategy
 
-    def detect_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
+    def detect_outliers(self, df: pd.DataFrame , numeric_cols: pd.core.indexes.base.Index) -> pd.DataFrame:
         logging.info("Executing outlier detection strategy.")
-        return self._strategy.detect_outliers(df)
+        return self._strategy.detect_outliers(df, numeric_cols)
 
-    def handle_outliers(self, df: pd.DataFrame, method="remove", **kwargs) -> pd.DataFrame:
-        outliers = self.detect_outliers(df)
+    def handle_outliers(self, df: pd.DataFrame, numeric_cols: pd.core.indexes.base.Index, method="remove", **kwargs) -> pd.DataFrame:
+        outliers = self.detect_outliers(df , numeric_cols)
         if method == "remove":
             logging.info("Removing outliers from the dataset.")
-            df_cleaned = df[(~outliers).all(axis=1)]
+            #df_cleaned = df[(~outliers).all(axis=1)]
+            df_cleaned = df[~outliers.any(axis=1)] 
         elif method == "cap":
             logging.info("Capping outliers in the dataset.")
             df_cleaned = df.clip(lower=df.quantile(0.01), upper=df.quantile(0.99), axis=1)
