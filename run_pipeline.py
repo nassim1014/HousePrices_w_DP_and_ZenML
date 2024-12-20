@@ -1,4 +1,3 @@
-'''
 import click
 from src.pipelines.training_pipeline import ml_pipeline
 from zenml.integrations.mlflow.mlflow_utils import get_tracking_uri
@@ -61,3 +60,5 @@ def simple_pipeline():
 # Run the pipeline
 if __name__ == "__main__":
     simple_pipeline()
+
+'''
