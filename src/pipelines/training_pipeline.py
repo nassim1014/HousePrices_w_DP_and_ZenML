@@ -1,14 +1,13 @@
 from zenml import Model , pipeline, step
-from ..steps.data_ingestion_step import data_ingestion_step
-from ..steps.handle_missing_values_step import handle_missing_values_step
-from ..steps.data_splitter_step import data_splitter_step
-
+from src.steps.data_ingestion_step import data_ingestion_step
+from src.steps.handle_missing_values_step import handle_missing_values_step
+from src.steps.data_splitter_step import data_splitter_step
+from src.steps.feature_engineering_step import feature_engineering_step
 @pipeline(
     model = Model(
         name = "prices_predictor"
     ),
 )
-
 #def ml_pipeline():
 #@pipeline(enable_cache=False, model=Model(name="prices_predictor"))
 def ml_pipeline():
@@ -30,13 +29,13 @@ def ml_pipeline():
     # - Uses Strategy pattern for handling missing values
     # - Default strategy is 'mean' for numerical columns
     # - Returns cleaned dataframe
-#    X_train_fill_data = handle_missing_values_step(X_train)
+    X_train_fill_data = handle_missing_values_step(X_train)
 
     # Step 4: Feature Engineering
     # - Applies log transformation to selected features
     # - Transforms 'ground_living_area' and 'sale_price'
     # - Returns engineered dataframe
-#    engineer_data = feature_engineering_step(X_train_fill_data)
+    engineer_data = feature_engineering_step(X_train_fill_data)
 
     # Step 5: Outlier Detection and Handling
     # - Uses Z-score method for outlier detection
