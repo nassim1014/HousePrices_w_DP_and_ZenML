@@ -28,16 +28,7 @@ model = Model(
 def model_building_step(
     X_train: pd.DataFrame, y_train: pd.Series
 ) -> Annotated[Pipeline, ArtifactConfig(name="sklearn_pipeline", is_model_artifact=True)]:
-    """
-    Builds and trains a Linear Regression model using scikit-learn wrapped in a pipeline.
 
-    Parameters:
-    X_train (pd.DataFrame): The training data features.
-    y_train (pd.Series): The training data labels/target.
-
-    Returns:
-    Pipeline: The trained scikit-learn pipeline including preprocessing and the Linear Regression model.
-    """
     # Ensure the inputs are of the correct type
     if not isinstance(X_train, pd.DataFrame):
         raise TypeError("X_train must be a pandas DataFrame.")

@@ -5,6 +5,7 @@ from src.steps.data_splitter_step import data_splitter_step
 from src.steps.feature_engineering_step import feature_engineering_step
 from src.steps.outlier_detection_step import outlier_detection_step
 from src.steps.model_building_step import model_building_step
+from src.steps.model_evaluator_step import model_evaluator_step
 @pipeline(
     model = Model(
         name = "prices_predictor"
@@ -55,4 +56,4 @@ def ml_pipeline():
     # - Calculates mean squared error and R2 score
     # - Logs metrics to MLflow
     # - Returns evaluation metrics
-    #model_evaluator_step(trained_model, X_test, y_test)
+    evaluation_metrics , mse = model_evaluator_step(trained_model, X_test, y_test)
