@@ -1,6 +1,6 @@
 import os
 
-from pipelines.training_pipeline import ml_pipeline
+from src.pipelines.training_pipeline import ml_pipeline
 from src.steps.dynamic_importer import dynamic_importer
 from src.steps.prediction_service_loader import prediction_service_loader
 from src.steps.predictor import predictor

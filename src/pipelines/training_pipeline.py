@@ -50,10 +50,11 @@ def ml_pipeline():
     # - Implements pipeline with StandardScaler and LinearRegression
     # - Handles categorical encoding
     # - Returns trained model
-    trained_model = model_building_step(X_train, y_train)
+    model = model_building_step(X_train, y_train)
 
     # Step 7: Model Evaluation
     # - Calculates mean squared error and R2 score
     # - Logs metrics to MLflow
     # - Returns evaluation metrics
-    evaluation_metrics , mse = model_evaluator_step(trained_model, X_test, y_test)
+    evaluation_metrics , mse = model_evaluator_step(model, X_test, y_test)
+    return model
